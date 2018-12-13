@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body style="margin:20px">
+
+	<div>RSSを読込んで表示、jsonを読込んで表示</div>
+	<div id="name">
+		<div>
+			<select id="pref"></select>
+			<select id="city"></select>
+			<button id="test1">天気を表示</button>
+		</div>
+		<div id="test2"></div>
+	</div>
+	<!--
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+	-->
+	<script type="text/javascript">	
+	var getData = function(){
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4){
+				if(xmlhttp.status == 200){
+					
+					var doc = xmlhttp.responseXML.documentElement;
+					var title = doc.getElementsByTagName("title");
+					//document.getElementById("test2").innerHTML = title[0].textContent;
+					var prefs = doc.getElementsByTagName("pref");
+					if(prefs.length > 0){
+						var firstPref = prefs[0];
+						for(var i = 0; i < prefs.length; i++)
+						{	
+							document.getElementById("pref").insertAdjacentHTML("beforeend", "<option>" + prefs[i].getAttribute("title") + "</option>");
+						}
+					}
+					var citys = firstPref.childNodes;
+					for(var i =0; i < citys.length; i++){
+						if(citys[i].nodeName == "city"){
+							document.getElementById("city").insertAdjacentHTML("beforeend", "<option id='" + citys[i].getAttribute("id") + "'>" + citys[i].getAttribute("title") + "</option>");
+						}
+					}
+
+				}
+			}
+		}
+		xmlhttp.open("GET","primary_area.xml");
+		xmlhttp.send();
+	}
+	var changePref = function(){
+		var pref = document.getElementById("pref");
+		console.log(pref.options[pref.selectedIndex].text);
+	}
+	window.onload = getData();
+	document.getElementById("test1").onclick = getData;
+	document.getElementById("pref").onchange = changePref;
+  	</script>
+</body>
+</html>
