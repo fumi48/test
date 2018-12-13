@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body style="margin:20px">
+
+	<div>RSSを読込む</div>
+	<div id="name">
+		<div><button id="test1">RSSを読込む</button></div>
+		<div id="test2"></div>
+	</div>
+	<!--
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+	-->
+	<xml id = "xml1" src="primary_area.xml"></xml>
+	<script type="text/javascript">	
+	var xhr = new XMLHttpRequest();
+	// ハンドラの登録.
+	xhr.onreadystatechange = function() {
+		//データ受信完了
+		if(xhr.readyState == 4){
+			if( xhr.status == 200 || xhr.status == 304 ) {
+				var data = xhr.responseText; // responseXML もあり
+				console.log( data );
+				//document.getElementById("test2").innerHTML = data;
+			} else {
+				console.log( 'Failed. HttpStatus: '+xhr.statusText );
+			}
+		}
+	};
+	//xhr.open( 'POST', 'http://weather.livedoor.com/forecast/rss', false );
+	xhr.open( 'GET', 'primary_area.xml', false );
+	// POST 送信の場合は Content-Type は固定.
+	//xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+	// 
+	var data = null;
+	xhr.send( data );
+	xhr.abort(); // 再利用する際にも abort() しないと再利用できないらしい.
+  	</script>
+</body>
+</html>
